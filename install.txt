@@ -1,0 +1,12 @@
+1. Install k3s
+2. Create "awx" namespace - kubectl create ns awx
+3. Clone AWX operator - git clone https://github.com/ansible/awx-operator.git
+4. Export NAMESPACE=awx
+5. CD to AWX operator DIR and checkout latest version - git checkout 1.2.0 <<<Insert latest version on Github
+6. Make deploy
+7. Confirm all operator containers started - kubectl get pods -n awx
+8. Clone JLB AWX file
+9. In awx.yaml, set Host under Traefik match, line 22
+10. Apply awx.yaml - kubectl apply -f awx.yaml -n awx
+11. Confirm all AWX resources started - kubectl get all -n awx
+12. Get AWX admin password - kubectl get secrets awx-admin-password -n awx -o jsonpath="{.data.password}" | base64 --decode

@@ -1,0 +1,26 @@
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx
+spec:
+  projects_persistence: true
+  projects_storage_class: local-path
+  projects_storage_size: 20Gi
+  projects_storage_access_mode: ReadWriteOnce
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: awxingressroute
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`awx.hsm-hosting.com`)
+    kind: Rule
+    services:
+    - name: awx-service
+      port: 80
